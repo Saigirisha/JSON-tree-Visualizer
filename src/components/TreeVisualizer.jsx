@@ -44,14 +44,19 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
     () => buildTreeNodes(jsonData, searchTerm, theme),
     [jsonData, searchTerm, theme]
   );
+
   useEffect(() => {
-    const t = setTimeout(() => {
+    const fit = () => {
       try {
-        fitView({ padding: 0.2 });
+        fitView({ padding: 0.25, duration: 500 });
       } catch {}
-    }, 300);
-    return () => clearTimeout(t);
+    };
+
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
   }, [jsonData, theme, fitView]);
+
   useEffect(() => {
     if (!highlightPath) return;
     const match = nodes.find((n) => n.data.path === highlightPath);
@@ -88,6 +93,7 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
     () => setTooltip({ visible: false, x: 0, y: 0, text: "" }),
     []
   );
+
   const downloadImage = async () => {
     const flowCanvas = document.querySelector(".react-flow");
     if (!flowCanvas) return alert("Tree not rendered yet");
@@ -119,6 +125,7 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
           <Controls showInteractive={false} />
           <Background color="var(--edge-color)" gap={20} />
         </ReactFlow>
+
         {tooltip.visible && (
           <div
             style={{
