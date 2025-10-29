@@ -1,4 +1,4 @@
-# 🧩 JSON Tree Visualizer
+# JSON Tree Visualizer
 
 A modern **React-based tool** to visualize and explore JSON data interactively.  
 Supports **search**, **dark/light themes**, **JSON path highlighting**, and **graph download**.
@@ -29,7 +29,7 @@ Paste any JSON and visualize its structure as a tree graph
 
 ```bash
 # Clone the repo
-git clone https://github.com/<your-username>/json-tree-visualizer.git
+git clone https://github.com/<Saigirisha>/json-tree-visualizer.git
 cd json-tree-visualizer
 
 # Install dependencies
