@@ -39,22 +39,18 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
     text: "",
   });
   const { fitView, setViewport } = useReactFlow();
-
   const { nodes, edges } = useMemo(
     () => buildTreeNodes(jsonData, searchTerm, theme),
     [jsonData, searchTerm, theme]
   );
 
   useEffect(() => {
-    const fit = () => {
+    const t = setTimeout(() => {
       try {
-        fitView({ padding: 0.25, duration: 500 });
+        fitView({ padding: 0.2 });
       } catch {}
-    };
-
-    fit();
-    window.addEventListener("resize", fit);
-    return () => window.removeEventListener("resize", fit);
+    }, 300);
+    return () => clearTimeout(t);
   }, [jsonData, theme, fitView]);
 
   useEffect(() => {
@@ -103,8 +99,7 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
         pixelRatio: 2,
       });
       download(dataUrl, "json-tree.png");
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Failed to export image");
     }
   };
@@ -125,7 +120,6 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
           <Controls showInteractive={false} />
           <Background color="var(--edge-color)" gap={20} />
         </ReactFlow>
-
         {tooltip.visible && (
           <div
             style={{
@@ -144,9 +138,8 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
             {tooltip.text}
           </div>
         )}
-
         <button onClick={downloadImage} className="download-btn-bottom">
-          Download Tree
+          📸 Download Tree
         </button>
       </div>
     </div>
