@@ -1,0 +1,13 @@
+.theme-toggle-btn {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

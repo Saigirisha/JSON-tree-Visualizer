@@ -1,0 +1,84 @@
+.json-input {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.json-input h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  text-align: center;
+  margin: 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--edge-color);
+}
+.json-input textarea {
+  flex: 1;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--edge-color);
+  background: var(--node-bg);
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--text-color);
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+  overflow: auto;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.json-input textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+.button-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.visualize-btn {
+  flex: 1;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+}
+.visualize-btn:hover {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+}
+.clear-btn {
+  flex: 1;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  color: #111827;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.clear-btn:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+}
+.error {
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}

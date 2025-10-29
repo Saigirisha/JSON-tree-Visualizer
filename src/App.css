@@ -1,0 +1,114 @@
+:root {
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
+  --node-bg: #ffffff;
+  --edge-color: #cbd5e1;
+  --object-color: #6366f1;
+  --array-color: #22c55e;
+  --primitive-color: #f97316;
+  --highlight-bg: #fee2e2;
+  --tooltip-bg: rgba(17, 24, 39, 0.9);
+  --tooltip-text: #f8fafc;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --text-color: #f8fafc;
+  --node-bg: #1e293b;
+  --edge-color: #475569;
+  --object-color: #818cf8;
+  --array-color: #4ade80;
+  --primitive-color: #fb923c;
+  --highlight-bg: #7f1d1d;
+  --tooltip-bg: #1f2937;
+  --tooltip-text: #f8fafc;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 20px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header h1::before {
+  font-size: 22px;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.left-section {
+  width: 32%;
+  min-width: 350px;
+  padding: 18px;
+  background: var(--node-bg);
+  border-right: 1px solid var(--edge-color);
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.left-section .json-input {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+  padding: 15px;
+  overflow: hidden;
+}
+
+.status-msg {
+  margin: 5px 0 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  font-size: 16px;
+  text-align: center;
+}
