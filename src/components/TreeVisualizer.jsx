@@ -10,6 +10,16 @@ import "./TreeVisualizer.css";
 import { buildTreeNodes } from "../utils/treeBuilder";
 import { toPng } from "html-to-image";
 import download from "downloadjs";
+const observerErrorHandler = (error) => {
+  if (
+    error.message &&
+    error.message.includes("ResizeObserver loop completed")
+  ) {
+    return;
+  }
+  console.error(error);
+};
+window.addEventListener("error", observerErrorHandler);
 
 export default function TreeVisualizer({
   jsonData,
@@ -38,7 +48,9 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
     y: 0,
     text: "",
   });
+
   const { fitView, setViewport } = useReactFlow();
+
   const { nodes, edges } = useMemo(
     () => buildTreeNodes(jsonData, searchTerm, theme),
     [jsonData, searchTerm, theme]
@@ -49,7 +61,7 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
       try {
         fitView({ padding: 0.2 });
       } catch {}
-    }, 300);
+    }, 400);
     return () => clearTimeout(t);
   }, [jsonData, theme, fitView]);
 
@@ -64,17 +76,21 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
     }
   }, [highlightPath, nodes, setViewport]);
 
-  const onNodeClick = useCallback(
-    (_, node) => {
-      setViewport({
-        x: -node.position.x + window.innerWidth / 2,
-        y: -node.position.y + 200,
-        zoom: 1.2,
+  const onNodeClick = useCallback(async (_, node) => {
+    try {
+      await navigator.clipboard.writeText(node.data.path);
+      setTooltip({
+        visible: true,
+        x: window.innerWidth / 2 - 60,
+        y: window.innerHeight / 2 - 40,
+        text: `✅ Copied: ${node.data.path}`,
       });
-      navigator.clipboard?.writeText(node.data.path).catch(() => {});
-    },
-    [setViewport]
-  );
+      setTimeout(
+        () => setTooltip({ visible: false, x: 0, y: 0, text: "" }),
+        1000
+      );
+    } catch {}
+  }, []);
 
   const onNodeMouseEnter = useCallback((e, node) => {
     setTooltip({
@@ -91,16 +107,36 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
   );
 
   const downloadImage = async () => {
-    const flowCanvas = document.querySelector(".react-flow");
-    if (!flowCanvas) return alert("Tree not rendered yet");
+    const flowWrapper = document.querySelector(".react-flow");
+    if (!flowWrapper) return alert("Tree not rendered yet");
+
     try {
-      const dataUrl = await toPng(flowCanvas, {
+      const rect = flowWrapper.getBoundingClientRect();
+      const styleBackup = {
+        width: flowWrapper.style.width,
+        height: flowWrapper.style.height,
+        transform: flowWrapper.style.transform,
+      };
+
+      flowWrapper.style.width = `${rect.width * 2}px`;
+      flowWrapper.style.height = `${rect.height * 2}px`;
+      flowWrapper.style.transform = "scale(1)";
+
+      await new Promise((r) => setTimeout(r, 250));
+
+      const dataUrl = await toPng(flowWrapper, {
         cacheBust: true,
         pixelRatio: 2,
+        backgroundColor: getComputedStyle(document.body).getPropertyValue(
+          "--bg-color"
+        ),
       });
+      Object.assign(flowWrapper.style, styleBackup);
+
       download(dataUrl, "json-tree.png");
-    } catch {
-      alert("Failed to export image");
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("⚠️ Couldn't export image properly. Try again.");
     }
   };
 
@@ -117,9 +153,10 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
           proOptions={{ hideAttribution: true }}
           style={{ background: "var(--bg-color)" }}
         >
-          <Controls showInteractive={false} />
           <Background color="var(--edge-color)" gap={20} />
+          <Controls className="custom-controls" showInteractive={false} />
         </ReactFlow>
+
         {tooltip.visible && (
           <div
             style={{
@@ -138,10 +175,11 @@ function TreeContent({ jsonData, searchTerm, highlightPath, theme }) {
             {tooltip.text}
           </div>
         )}
-        <button onClick={downloadImage} className="download-btn-bottom">
-          📸 Download Tree
-        </button>
       </div>
+
+      <button onClick={downloadImage} className="download-btn-bottom">
+        Download
+      </button>
     </div>
   );
 }

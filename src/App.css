@@ -38,6 +38,7 @@ body {
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .header {
@@ -68,7 +69,9 @@ body {
   gap: 16px;
   padding: 16px;
   background: var(--bg-color);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .left-section {
@@ -80,7 +83,26 @@ body {
   padding: 16px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.left-section textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 220px;
+  border: 1px solid var(--edge-color);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  color: var(--text-color);
+  background: var(--node-bg);
+  outline: none;
+}
+
+.left-section textarea:focus {
+  border-color: #3b82f6;
 }
 
 .right-section {
@@ -91,8 +113,11 @@ body {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  min-height: 500px;
+  box-sizing: border-box;
 }
 
 .status-msg {
@@ -110,6 +135,47 @@ body {
   opacity: 0.7;
   text-align: center;
 }
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 180px;
+  padding: 8px 12px;
+  border: 1px solid var(--edge-color);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text-color);
+  background: var(--node-bg);
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.search-bar input:focus {
+  border-color: #3b82f6;
+}
+
+.search-bar button {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.search-bar button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
 @media (max-width: 1024px) {
   .main {
     flex-direction: column;
@@ -121,12 +187,15 @@ body {
     width: 100%;
     min-width: unset;
   }
+
+  .left-section textarea {
+    min-height: 200px;
+  }
 }
 
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
-    align-items: center;
     text-align: center;
     gap: 6px;
   }
@@ -140,22 +209,32 @@ body {
   .left-section,
   .right-section {
     width: 100%;
-    border-radius: 8px;
     padding: 12px;
   }
 
   .left-section textarea {
-    min-height: 180px !important;
+    min-height: 180px;
     font-size: 13px;
   }
 
-  .status-msg {
-    text-align: center;
-    font-size: 13px;
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .placeholder {
+  .search-bar input {
+    width: 100%;
     font-size: 14px;
+  }
+
+  .search-bar button {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .right-section {
+    min-height: 400px;
   }
 }
 
@@ -171,7 +250,17 @@ body {
 
   .left-section textarea {
     font-size: 12px;
-    min-height: 160px !important;
+    min-height: 160px;
+  }
+
+  .search-bar input {
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+
+  .search-bar button {
+    font-size: 12px;
+    padding: 7px 10px;
   }
 
   button {
@@ -182,4 +271,13 @@ body {
   .placeholder {
     font-size: 13px;
   }
+
+  .right-section {
+    min-height: 350px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
